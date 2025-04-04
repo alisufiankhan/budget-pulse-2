@@ -7,37 +7,17 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const CURRENCIES: { [key in Currency]: CurrencyConfig } = {
-  PKR: {
-    code: 'PKR',
-    symbol: '₨',
-    name: 'Pakistani Rupee',
-    rate: 279.5
-  },
-  USD: {
-    code: 'USD',
-    symbol: '$',
-    name: 'US Dollar',
-    rate: 1
-  }
+export const CURRENCY_CONFIG: CurrencyConfig = {
+  symbol: '₨',
+  name: 'Pakistani Rupee'
 }
 
-export const formatCurrency = (amount: number, currency: Currency = 'USD'): string => {
-  const config = CURRENCIES[currency]
-  const value = amount * config.rate
-  
-  return new Intl.NumberFormat(currency === 'PKR' ? 'ur-PK' : 'en-US', {
+export const formatCurrency = (amount: number): string => {
+  return new Intl.NumberFormat('ur-PK', {
     style: 'currency',
-    currency: currency,
-    maximumFractionDigits: currency === 'PKR' ? 0 : 2
-  }).format(value)
-}
-
-export const convertCurrency = (amount: number, from: Currency, to: Currency): number => {
-  if (from === to) return amount
-  const fromRate = CURRENCIES[from].rate
-  const toRate = CURRENCIES[to].rate
-  return (amount * fromRate) / toRate
+    currency: 'PKR',
+    maximumFractionDigits: 0
+  }).format(amount)
 }
 
 export const getStorageKey = (year: number, month: number): string => {

@@ -1,12 +1,10 @@
-export type TransactionStatus = 'pending' | 'cleared' | 'reconciled';
+export type TransactionStatus = 'pending' | 'due' | 'paid';
 export type TransactionType = 'income' | 'expense';
-export type Currency = 'PKR' | 'USD';
+export type Currency = 'PKR';
 
 export interface CurrencyConfig {
-  code: Currency;
   symbol: string;
   name: string;
-  rate: number; // Exchange rate relative to USD
 }
 
 export interface Category {

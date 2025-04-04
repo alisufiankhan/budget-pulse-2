@@ -102,8 +102,8 @@ export default function TransactionSearch({
         >
           <option value="">All Statuses</option>
           <option value="pending">Pending</option>
-          <option value="cleared">Cleared</option>
-          <option value="reconciled">Reconciled</option>
+          <option value="due">Due</option>
+          <option value="paid">Paid</option>
         </select>
       </div>
 

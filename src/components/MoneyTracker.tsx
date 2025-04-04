@@ -19,8 +19,7 @@ import {
   addTransaction, 
   deleteTransaction, 
   formatCurrency, 
-  getMonthData,
-  CURRENCIES
+  getMonthData
 } from "@/lib/utils"
 import { Transaction, TransactionStatus, TransactionType, Category, Currency } from "@/types/money"
 import { DEFAULT_CATEGORIES } from "@/lib/finance"
@@ -40,14 +39,13 @@ export default function MoneyTracker() {
   const currentDate = new Date()
   const [year, setYear] = useState(currentDate.getFullYear())
   const [month, setMonth] = useState(currentDate.getMonth())
-  const [selectedCurrency, setSelectedCurrency] = useState<Currency>('PKR')
   const [formData, setFormData] = useState({
     amount: "",
     description: "",
     categoryId: "food",
     type: "expense" as TransactionType,
-    status: "pending" as TransactionStatus,
-    currency: selectedCurrency,
+    status: "due" as TransactionStatus,
+    currency: 'PKR',
     notes: "",
     receipt: undefined as string | undefined
   })
@@ -114,21 +112,6 @@ export default function MoneyTracker() {
         <h1 className="text-2xl md:text-3xl font-bold">Money Tracker</h1>
         <div className="flex flex-wrap items-center gap-2 md:gap-4">
           <select
-            value={selectedCurrency}
-            onChange={(e) => {
-              if (confirm('Changing currency will update all monetary values across the application. Do you want to continue?')) {
-                setSelectedCurrency(e.target.value as Currency)
-              }
-            }}
-            className="bg-secondary p-2 rounded border border-input hover:bg-accent"
-          >
-            {Object.values(CURRENCIES).map((currency) => (
-              <option key={currency.code} value={currency.code}>
-                {currency.symbol} {currency.name}
-              </option>
-            ))}
-          </select>
-          <select
             value={month}
             onChange={(e) => setMonth(parseInt(e.target.value))}
             className="bg-secondary p-2 rounded"
@@ -160,7 +143,7 @@ export default function MoneyTracker() {
             <h2 className="text-xl font-semibold">Income</h2>
           </div>
           <p className="text-2xl font-bold text-green-500 mt-2">
-            {formatCurrency(monthData.income, selectedCurrency)}
+            {formatCurrency(monthData.income)}
           </p>
         </div>
         <div className="bg-secondary p-6 rounded-lg">
@@ -169,7 +152,7 @@ export default function MoneyTracker() {
             <h2 className="text-xl font-semibold">Expenses</h2>
           </div>
           <p className="text-2xl font-bold text-red-500 mt-2">
-            {formatCurrency(monthData.expense, selectedCurrency)}
+            {formatCurrency(monthData.expense)}
           </p>
         </div>
         <div className="bg-secondary p-6 rounded-lg">
@@ -178,7 +161,7 @@ export default function MoneyTracker() {
             <h2 className="text-xl font-semibold">Balance</h2>
           </div>
           <p className="text-2xl font-bold text-blue-500 mt-2">
-            {formatCurrency(monthData.income - monthData.expense, selectedCurrency)}
+            {formatCurrency(monthData.income - monthData.expense)}
           </p>
         </div>
       </div>

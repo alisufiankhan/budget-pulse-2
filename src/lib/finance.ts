@@ -2,7 +2,6 @@
 
 import { Category, Transaction, MonthlyData, ChartData, Currency } from "@/types/money"
 import { format, startOfMonth, endOfMonth, eachDayOfInterval } from "date-fns"
-import { CURRENCIES } from "@/lib/utils"
 
 export const DEFAULT_CATEGORIES: Category[] = [
   { id: "food", name: "Food", color: "#FF6B6B" },
@@ -46,12 +45,6 @@ export const getMonthData = (year: number, month: number): MonthlyData => {
   return JSON.parse(data)
 }
 
-const convertAmount = (amount: number, fromCurrency: Currency, toCurrency: Currency): number => {
-  if (fromCurrency === toCurrency) return amount
-  const fromRate = CURRENCIES[fromCurrency].rate
-  const toRate = CURRENCIES[toCurrency].rate
-  return (amount * fromRate) / toRate
-}
 
 export const addTransaction = (
   year: number,
@@ -67,10 +60,10 @@ export const addTransaction = (
   const newData = {
     ...currentData,
     income: transaction.type === 'income'
-      ? currentData.income + convertAmount(transaction.amount, transaction.currency as Currency, 'PKR')
+      ? currentData.income + transaction.amount
       : currentData.income,
     expense: transaction.type === 'expense'
-      ? currentData.expense + convertAmount(transaction.amount, transaction.currency as Currency, 'PKR')
+      ? currentData.expense + transaction.amount
       : currentData.expense,
     transactions: [newTransaction, ...currentData.transactions],
   }

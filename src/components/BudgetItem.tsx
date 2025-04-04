@@ -41,7 +41,7 @@ export default function BudgetItem({
         <div>
           <h3 className="font-semibold">{category.name}</h3>
           <p className="text-sm text-muted-foreground">
-            {formatCurrency(expenses, currency)} / {formatCurrency(budget, currency)}
+            {formatCurrency(expenses)} / {formatCurrency(budget)}
           </p>
         </div>
         {isEditing ? (
